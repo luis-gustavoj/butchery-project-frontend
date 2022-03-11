@@ -1,3 +1,3 @@
-export default function Home() {
-  return <div></div>;
-}
+import DashboardPage from "./dashboard";
+
+export default DashboardPage;
