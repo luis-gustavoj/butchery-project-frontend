@@ -1,0 +1,21 @@
+.category-menu {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--grey-200);
+
+  &.collapsed {
+    .category-items {
+      align-items: center;
+    }
+  }
+
+  .category-title {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .category-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
