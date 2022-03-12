@@ -1,0 +1,24 @@
+.search-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--grey-300);
+  border-radius: 8px;
+  width: 100%;
+
+  .icon-container {
+    padding: 0.5rem;
+    color: var(--grey-300);
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  input {
+    border: none;
+    background: none;
+    outline: none;
+    height: 100%;
+  }
+}
