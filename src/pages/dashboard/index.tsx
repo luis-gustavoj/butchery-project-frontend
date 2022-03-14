@@ -43,16 +43,16 @@ export default function DashboardPage() {
         </div>
         <Tabs containerClassName={styles.tabsContainer}>
           <TabContainer label="Bovino" className={styles.tabContainer}>
-            <ProductsContainer products={products["BOV"]} category="Bovino" />
+            <ProductsContainer products={products["BOV"]} category="BOV" />
           </TabContainer>
           <TabContainer label="Suíno">
-            <ProductsContainer products={products["SUI"]} />
+            <ProductsContainer products={products["SUI"]} category="SUI" />
           </TabContainer>
           <TabContainer label="Aves">
-            <ProductsContainer products={products["FRN"]} />
+            <ProductsContainer products={products["FRN"]} category="FRN" />
           </TabContainer>
           <TabContainer label="Caixaria">
-            <ProductsContainer products={products["CXA"]} />
+            <ProductsContainer products={products["CXA"]} category="CXA" />
           </TabContainer>
         </Tabs>
       </div>
