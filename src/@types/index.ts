@@ -2,6 +2,7 @@ export type ProductType = {
   name: string;
   category: string;
   type?: string;
+  id?: string;
 };
 
 export type ProductsType = {
@@ -10,6 +11,7 @@ export type ProductsType = {
         {
           name: string;
           type: string | null;
+          id: string;
         }
       ]
     | [];
