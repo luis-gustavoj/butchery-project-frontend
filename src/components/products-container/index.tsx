@@ -10,6 +10,7 @@ interface ProductsContainerProps {
   products: {
     name: string;
     type: string;
+    id: string;
   }[];
   category?: string;
 }
