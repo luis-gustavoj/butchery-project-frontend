@@ -1,3 +1,5 @@
+import { ProductType } from "src/@types";
+
 // Components
 import { Modal } from "../modal";
 import { Input } from "../input";
@@ -8,18 +10,22 @@ import { useForm } from "react-hook-form";
 import { useProductsContext } from "src/contexts/products/context";
 
 // Reducer actions
-import { addProduct } from "src/contexts/products/actions";
+import { addProduct, editProduct } from "src/contexts/products/actions";
 
 // Icons
 import PlusIcon from "@svg/plus-icon.svg";
 
 // Styles
 import styles from "./styles.module.scss";
+import { useEffect } from "react";
+import { Button } from "../button";
 
 // Types
-interface AddProductModalProps {
+interface ProductModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
+  isEditing?: boolean;
+  product?: ProductType;
 }
 
 type Option = {
@@ -50,8 +56,10 @@ const typeOptionList: Option[] = [
 export const ProductModal = ({
   isOpen,
   onRequestClose,
-}: AddProductModalProps) => {
-  const { dispatch } = useProductsContext();
+  isEditing = false,
+  product,
+}: ProductModalProps) => {
+  const { dispatch, products } = useProductsContext();
 
   const {
     handleSubmit,
@@ -59,18 +67,35 @@ export const ProductModal = ({
     watch,
     setValue,
     reset,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<FormInput>({
     defaultValues: { category: "", name: "", type: "" },
   });
 
+  const formValues = getValues();
   const watchCategoryField = watch("category");
 
-  const onSubmit = (data) => {
-    dispatch(addProduct(data));
-    reset({ name: "", type: "" });
+  useEffect(() => {
+    if (isEditing && product) {
+      setValue("name", product.name);
+      setValue("category", product.category);
+      setValue("type", product.type);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Handle submit form
+  const onSubmit = (data: FormInput) => {
+    if (isEditing) {
+      dispatch(editProduct({ ...data, id: product.id }));
+    } else {
+      dispatch(addProduct(data));
+      reset({ name: "", type: "" });
+    }
   };
 
+  // Handle select a option in select input
   const handleSelectOption = (
     fieldName: "category" | "type",
     value: string
@@ -96,6 +121,7 @@ export const ProductModal = ({
           <Input type="text" name="name" {...register("name")} />
           <label htmlFor="category">Categoria</label>
           <SelectInput
+            value={formValues.category}
             options={categoryOptionList}
             {...register("category")}
             onSelectOption={handleSelectOption}
@@ -104,13 +130,16 @@ export const ProductModal = ({
             <>
               <label htmlFor="type">Tipo</label>
               <SelectInput
+                value={formValues.type}
                 options={typeOptionList}
                 {...register("type")}
                 onSelectOption={handleSelectOption}
               />
             </>
           )}
-          <button type="submit">oi</button>
+          <Button outline type="submit">
+            Salvar
+          </Button>
         </form>
       </div>
     </Modal>
