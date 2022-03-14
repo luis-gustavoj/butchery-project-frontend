@@ -3,13 +3,19 @@ import { ButtonHTMLAttributes } from "react";
 
 import styles from "./styles.module.scss";
 
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  outline?: boolean;
+}
+
 export const Button = ({
   children,
   className,
+  outline,
   ...rest
-}: ButtonHTMLAttributes<HTMLButtonElement>) => {
+}: ButtonProps) => {
   const buttonClassName = joinClassnames(className, {
     [styles.button]: true,
+    [styles.outline]: outline,
   });
 
   return (

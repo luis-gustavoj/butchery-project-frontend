@@ -1,6 +1,7 @@
 .button {
   display: flex;
   align-items: center;
+  justify-content: center;
   min-width: fit-content;
   padding: 0 1rem;
   border-radius: 8px;
@@ -9,6 +10,11 @@
   font-weight: bold;
   cursor: pointer;
   transition: background 300ms;
+
+  &.outline {
+    background: none;
+    border: 1px solid var(--grey-200);
+  }
 
   svg {
     width: 28px;
