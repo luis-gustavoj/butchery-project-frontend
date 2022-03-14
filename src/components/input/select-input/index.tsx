@@ -1,5 +1,11 @@
 import { offset, useFloating } from "@floating-ui/react-dom";
-import { forwardRef, ForwardRefRenderFunction, useRef, useState } from "react";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 // Hooks
 import { useOutsideClick } from "src/hooks/useOutsideClick";
@@ -19,16 +25,31 @@ type Option = {
 interface SelectInputProps {
   options: Option[];
   name: string;
+  value?: string | null;
   onSelectOption: (...args: any[]) => void;
 }
+
+const getOptionTitle = (optionArray: Option[], value: string) => {
+  const option = optionArray.filter(
+    (option) => option.title === value || option.value === value
+  );
+
+  return option[0].title;
+};
 
 const SelectInputBase: ForwardRefRenderFunction<
   HTMLSelectElement,
   SelectInputProps
-> = ({ options, onSelectOption, name, ...rest }, ref) => {
+> = ({ options, onSelectOption, value = null, name, ...rest }, ref) => {
   const [optionList, setOptionsList] = useState(options);
   const [isOptionListVisible, setIsOptionListVisible] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    console.log(value);
+    value && setSearchValue(getOptionTitle(optionList, value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { x, y, placement, reference, floating, strategy } = useFloating({
     placement: "bottom-start",
