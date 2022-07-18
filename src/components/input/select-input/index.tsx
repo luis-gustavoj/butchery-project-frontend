@@ -76,6 +76,9 @@ const SelectInputBase: ForwardRefRenderFunction<
           onClick={() => {
             setIsOptionListVisible(true);
           }}
+          onFocus={() => {
+            setIsOptionListVisible(true);
+          }}
           autoComplete="new-password"
           type="text"
           value={searchValue}
