@@ -1,0 +1,25 @@
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  button {
+    background: var(--primary);
+    color: var(--white);
+
+    &:hover {
+      background: var(--primary-darker);
+    }
+  }
+}
+
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .tab-container {
+    display: flex;
+    flex: 1;
+  }
+}
