@@ -1,3 +1,13 @@
-import DashboardPage from "./dashboard";
+import Head from "next/head";
+import { LoginModule } from "src/modules/Login";
 
-export default DashboardPage;
+export default function LoginPage() {
+  return (
+    <>
+      <Head>
+        <title>MyButchery | Login</title>
+      </Head>
+      <LoginModule />
+    </>
+  );
+}
