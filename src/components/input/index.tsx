@@ -2,10 +2,9 @@ import {
   forwardRef,
   ForwardRefRenderFunction,
   InputHTMLAttributes,
-  useEffect,
 } from "react";
-
 import { FieldError } from "react-hook-form";
+import styles from "./styles.module.scss";
 
 // Types
 export interface InputProps
@@ -35,7 +34,7 @@ export const InputBase: ForwardRefRenderFunction<
   return (
     <input
       ref={ref}
-      className={className}
+      className={className || styles.input}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
