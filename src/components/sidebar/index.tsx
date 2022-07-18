@@ -23,17 +23,17 @@ import styles from "./styles.module.scss";
 const sideBarMenuItems = [
   {
     icon: <DashboardIcon />,
-    link: "/dashboard",
+    link: "/gerenciamento/dashboard",
     description: "Dashboard",
   },
   {
     icon: <ProductsIcon />,
-    link: "/produtos",
+    link: "/gerenciamento/produtos",
     description: "Produtos",
   },
   {
     icon: <AnalyticsIcon />,
-    link: "/analise-rendimentos",
+    link: "/gerenciamento/analise-de-rendimentos",
     description: "Análise de rendimentos",
   },
 ];
