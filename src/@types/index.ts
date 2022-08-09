@@ -16,3 +16,10 @@ export type ProductsType = {
       ]
     | [];
 };
+
+export type AnalysisProduct = {
+  name?: string;
+  weight?: number;
+  price?: number;
+  id?: number;
+};
