@@ -8,7 +8,7 @@ import styles from "./styles.module.scss";
 
 interface TabsProps {
   children: React.ReactElement[];
-  containerClassName: string;
+  containerClassName?: string;
 }
 
 export const Tabs = ({ children, containerClassName }: TabsProps) => {
