@@ -1,0 +1,95 @@
+.row {
+  display: grid;
+  column-gap: 1rem;
+  grid-template-columns: 44px auto 100px 175px 200px;
+  align-items: center;
+  padding: 0.875rem 0;
+
+  div {
+    &:first-of-type {
+      text-align: center;
+    }
+
+    &:nth-child(5) {
+      justify-items: end;
+    }
+  }
+
+  input {
+    padding: 0.25rem;
+    min-height: 36px;
+    border-radius: 4px;
+    border: 1px solid var(--grey-700);
+  }
+
+  .input-data-container {
+    display: grid;
+    grid-template-columns: 25px 75px;
+    align-items: center;
+    min-height: 44px;
+
+    label,
+    p {
+      font-size: 0.875rem;
+      color: var(--grey-500);
+      text-align: left;
+      white-space: nowrap;
+
+      & + p {
+        font-weight: 700;
+        text-align: right;
+      }
+    }
+  }
+
+  .actions-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    button {
+      border: none;
+      background: none;
+      padding: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+
+      transition: background 200ms;
+
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      &.save {
+        background: transparentize($color: #63a355, $amount: 0.8);
+        color: #63a355;
+      }
+
+      &.edit {
+        background: transparentize($color: #fbc830, $amount: 0.8);
+        color: #fbc830;
+      }
+
+      &.delete {
+        background: transparentize($color: #ee6838, $amount: 0.8);
+        color: #ee6838;
+      }
+
+      &:hover {
+        &.save {
+          background: transparentize($color: #63a355, $amount: 0.5);
+          color: #63a355;
+        }
+
+        &.edit {
+          background: transparentize($color: #fbc830, $amount: 0.5);
+        }
+
+        &.delete {
+          background: transparentize($color: #ee6838, $amount: 0.5);
+        }
+      }
+    }
+  }
+}

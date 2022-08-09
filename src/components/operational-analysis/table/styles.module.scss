@@ -1,0 +1,27 @@
+.analysis-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+
+  .head {
+    > div {
+      display: grid;
+      text-align: left;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--grey-200);
+      color: var(--grey-800);
+      grid-template-columns: 44px auto 100px 175px 200px;
+      column-gap: 1rem;
+
+      p {
+        &:first-of-type {
+          text-align: center;
+        }
+
+        &:nth-child(5) {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
