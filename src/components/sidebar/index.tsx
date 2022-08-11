@@ -18,6 +18,7 @@ import AnalyticsIcon from "@svg/stats-report-icon.svg";
 
 // Styles
 import styles from "./styles.module.scss";
+import { useRouter } from "next/router";
 
 // Sidebar menu items in array to map on items
 const sideBarMenuItems = [
@@ -33,17 +34,21 @@ const sideBarMenuItems = [
   },
   {
     icon: <AnalyticsIcon />,
-    link: "/gerenciamento/analise-de-rendimentos",
-    description: "Análise de rendimentos",
+    link: "/gerenciamento/analise-de-rendimentos/gerar",
+    description: "Gerar análise de rendimentos",
+  },
+  {
+    icon: <AnalyticsIcon />,
+    link: "/gerenciamento/analise-de-rendimentos/resultados",
+    description: "Visualizar análise de rendimentos",
   },
 ];
 
 export const Sidebar = () => {
   const { width } = useWindowSize();
-
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const router = useRouter();
 
-  // Generating conditionally class names
   const sideBarClassNames = joinClassnames(styles.sidebar, {
     [styles.collapsed]: isSidebarCollapsed,
   });
@@ -72,6 +77,7 @@ export const Sidebar = () => {
         <CategoryMenu collapsed={isSidebarCollapsed}>
           {sideBarMenuItems.map((menuItem) => (
             <MenuItem
+              active={menuItem.link === router.pathname}
               href={menuItem.link}
               icon={menuItem.icon}
               key={menuItem.link}

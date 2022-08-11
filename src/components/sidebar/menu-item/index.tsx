@@ -13,6 +13,7 @@ interface MenuItemProps {
   href: string;
   children: string;
   collapsed: boolean;
+  active: boolean;
 }
 
 export const MenuItem = ({
@@ -20,9 +21,11 @@ export const MenuItem = ({
   children,
   href,
   collapsed,
+  active,
 }: MenuItemProps) => {
   const menuItensClassnames = joinClassnames(styles.menuItem, {
     [styles.collapsed]: collapsed,
+    [styles.active]: active,
   });
 
   return (

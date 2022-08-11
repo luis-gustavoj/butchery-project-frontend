@@ -23,8 +23,14 @@
     }
   }
 
+  &.active {
+    color: var(--primary-darker);
+  }
+
   .icon-container {
     margin-right: 1rem;
+    min-width: 24px;
+    min-height: 24px;
   }
 
   &:hover {
