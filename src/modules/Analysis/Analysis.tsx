@@ -1,4 +1,4 @@
-import { OperationAnalysis } from "src/components/operational-analysis";
+import { OperationAnalysis } from "src/components/generate-operational-analysis";
 import { Tabs } from "src/components/tabs";
 import { TabContainer } from "src/components/tabs/tab-container";
 import { Layout } from "../layout";
