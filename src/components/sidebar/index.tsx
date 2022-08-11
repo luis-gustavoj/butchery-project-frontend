@@ -1,24 +1,19 @@
 import joinClassnames from "classnames";
 import { useEffect, useState } from "react";
-
-// Hooks
 import { useWindowSize } from "src/hooks/useWindowSize";
-
-// Components
 import { CategoryMenu } from "./category-menu";
 import { MenuItem } from "./menu-item";
-
-// Icons
 import ButcheryLogo from "@svg/butchery-logo.svg";
 import LeftArrowIcon from "@svg/arrow-left.svg";
 import RightArrowIcon from "@svg/arrow-right.svg";
 import DashboardIcon from "@svg/home-icon.svg";
 import ProductsIcon from "@svg/box-icon.svg";
+import LogoutIcon from "@svg/logout-icon.svg";
 import AnalyticsIcon from "@svg/stats-report-icon.svg";
-
-// Styles
 import styles from "./styles.module.scss";
 import { useRouter } from "next/router";
+import { useAuthContext } from "src/contexts/AuthContext";
+import { userPreferences } from "src/utils/userPreferences";
 
 // Sidebar menu items in array to map on items
 const sideBarMenuItems = [
@@ -48,6 +43,7 @@ export const Sidebar = () => {
   const { width } = useWindowSize();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const router = useRouter();
+  const { signOut } = useAuthContext();
 
   const sideBarClassNames = joinClassnames(styles.sidebar, {
     [styles.collapsed]: isSidebarCollapsed,
@@ -58,11 +54,19 @@ export const Sidebar = () => {
   });
 
   useEffect(() => {
-    width > 1024 ? setIsSidebarCollapsed(false) : setIsSidebarCollapsed(true);
+    const sidebarUserPreference = userPreferences.getByKey("sidebar");
+    if (width < 1024) {
+      setIsSidebarCollapsed(true);
+      return;
+    }
+    if (sidebarUserPreference) {
+      setIsSidebarCollapsed(sidebarUserPreference);
+    }
   }, [width]);
 
   const toggleCollapsed = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
+    userPreferences.save("sidebar", !isSidebarCollapsed);
   };
 
   return (
@@ -88,7 +92,20 @@ export const Sidebar = () => {
           ))}
         </CategoryMenu>
       </div>
-      <div className={styles.sidebarFooter}></div>
+      <div className={styles.sidebarFooter}>
+        <button
+          className={joinClassnames(styles.logoutButton, {
+            [styles.collapsed]: isSidebarCollapsed,
+          })}
+          type="button"
+          onClick={signOut}
+        >
+          <span className={styles.iconContainer}>
+            <LogoutIcon />
+          </span>
+          {!isSidebarCollapsed && <span>Sair</span>}
+        </button>
+      </div>
     </div>
   );
 };
