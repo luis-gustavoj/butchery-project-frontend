@@ -4,6 +4,16 @@
   grid-template-rows: repeat(3, auto);
   row-gap: 1.125rem;
 
+  .additional-info {
+    text-align: center;
+
+    a {
+      text-decoration: none;
+      color: var(--grey-700);
+      font-size: 0.875rem;
+    }
+  }
+
   .labeled-input {
     display: flex;
     flex-direction: column;
@@ -15,7 +25,6 @@
   }
 
   button[type="submit"] {
-    margin-top: 1.25rem;
     background: var(--primary);
     color: var(--white);
     height: 44px;
