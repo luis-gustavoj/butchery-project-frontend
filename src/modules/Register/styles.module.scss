@@ -1,0 +1,22 @@
+.login-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: #fff8f8;
+
+  .login-form-container {
+    width: min(90%, 384px);
+    border-radius: 1rem;
+    background: #fff;
+    padding: 2.5rem 1.125rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem 0 2rem;
+    }
+  }
+}
