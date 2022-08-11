@@ -1,0 +1,16 @@
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .tab-container {
+    height: 100%;
+    overflow: hidden;
+  }
+}
