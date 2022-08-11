@@ -1,18 +1,17 @@
 import Modal from "react-modal";
-
-// Context
+import { AuthContextProvider } from "src/contexts/AuthContext";
 import { ProductsContextProvider } from "src/contexts/products/context";
-
-// Styles
 import "../styles/globals.scss";
 
 Modal.setAppElement("#__next");
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ProductsContextProvider>
-      <Component {...pageProps} />
-    </ProductsContextProvider>
+    <AuthContextProvider>
+      <ProductsContextProvider>
+        <Component {...pageProps} />
+      </ProductsContextProvider>
+    </AuthContextProvider>
   );
 }
 
