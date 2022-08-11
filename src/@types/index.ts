@@ -23,3 +23,18 @@ export type AnalysisProduct = {
   price?: number;
   id?: number;
 };
+
+export type User = {
+  address: "";
+  city?: string;
+  country?: string;
+  state?: string;
+  zip?: string;
+  createdAt: string;
+  email: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  orgName: string;
+  userType: "user" | "admin";
+};
