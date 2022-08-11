@@ -11,7 +11,11 @@ export const OperationAnalysis = () => {
       </div>
       <div>
         <h2>Cortes</h2>
-        <AnalysisTable />
+        <div className={styles.container}>
+          <div>
+            <AnalysisTable />
+          </div>
+        </div>
       </div>
     </div>
   );

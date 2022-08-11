@@ -16,10 +16,19 @@
     border: 1px solid var(--grey-300);
     padding: 1rem;
 
+    &:last-of-type {
+      overflow: hidden;
+    }
+
     h2 {
       font-size: 1.5rem;
       font-weight: 500;
       line-height: 1em;
     }
   }
+}
+
+.container {
+  overflow-x: auto;
+  height: 96.5%;
 }
