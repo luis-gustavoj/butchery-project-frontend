@@ -6,7 +6,13 @@ const path = require("path");
 const nextConfig = withReactSvg({
   reactStrictMode: true,
   include: path.resolve(__dirname, "src/assets/svg"),
-
+  redirects: async () => [
+    {
+      source: "/gerenciamento",
+      destination: "/gerenciamento/dashboard",
+      permanent: true,
+    },
+  ],
   webpack: (config) => {
     const rules = config.module.rules
       .find((rule) => typeof rule.oneOf === "object")
