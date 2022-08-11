@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { AnalysisModule } from "src/modules/Analysis";
+import { ResultsAnalysisModule } from "src/modules/ResultsAnalysis";
 
 export default function ProductsPage() {
   return (
@@ -7,7 +7,7 @@ export default function ProductsPage() {
       <Head>
         <title>MyButchery | Análise de rendimento</title>
       </Head>
-      <AnalysisModule />
+      <ResultsAnalysisModule />
     </>
   );
 }
