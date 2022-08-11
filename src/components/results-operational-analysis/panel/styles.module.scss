@@ -1,0 +1,61 @@
+.panel-container {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: 100%;
+
+  > div {
+    h3 {
+      margin-top: 0.875rem;
+      font-size: 1rem;
+      text-align: left;
+      color: var(--primary-darker);
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid var(--grey-200);
+    }
+
+    .input-data-container {
+      display: grid;
+      grid-template-columns: auto 75px;
+      align-items: center;
+      min-height: 44px;
+
+      input {
+        padding: 0.25rem;
+      }
+
+      label,
+      p {
+        font-size: 0.875rem;
+        color: var(--grey-500);
+        text-align: left;
+        white-space: nowrap;
+
+        & + p {
+          font-weight: 700;
+          text-align: right;
+        }
+      }
+
+      & + .input-data-container {
+        margin-top: 0.25rem;
+      }
+
+      table {
+        font-size: 0.875rem;
+        font-weight: 700;
+
+        tr {
+          td {
+            text-align: left;
+
+            &:last-of-type {
+              text-align: right;
+            }
+          }
+        }
+      }
+    }
+  }
+}

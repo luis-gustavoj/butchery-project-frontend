@@ -1,0 +1,40 @@
+.analysis-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+
+  thead {
+    tr {
+      th {
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-align: center;
+        padding: 1rem 1rem;
+        border: 1px solid var(--grey-200);
+        max-height: fit-content;
+
+        &:nth-child(2) {
+          min-width: 200px;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        font-size: 0.875rem;
+        text-align: center;
+        padding: 0.5rem 1rem;
+        white-space: nowrap;
+        border: 1px solid var(--grey-200);
+
+        &:nth-child(2) {
+          min-width: 200px;
+          text-align: left;
+        }
+      }
+    }
+  }
+}
