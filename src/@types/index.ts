@@ -38,3 +38,9 @@ export type User = {
   orgName: string;
   userType: "user" | "admin";
 };
+
+export type Cost = {
+  value: number;
+  type: string;
+  description: string;
+};

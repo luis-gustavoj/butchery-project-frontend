@@ -1,0 +1,64 @@
+.costs-table {
+  border-collapse: collapse;
+  width: 100%;
+
+  thead {
+    th {
+      text-align: left;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--grey-200);
+      color: var(--grey-800);
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--grey-200);
+        color: var(--black-900);
+      }
+
+      .actions-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+
+        button {
+          border: none;
+          background: none;
+          padding: 0.5rem;
+          border-radius: 6px;
+          cursor: pointer;
+
+          transition: background 200ms;
+
+          svg {
+            width: 32px;
+            height: 32px;
+          }
+
+          &:first-child {
+            background: transparentize($color: #fbc830, $amount: 0.8);
+            color: #fbc830;
+          }
+
+          &:last-child {
+            background: transparentize($color: #ee6838, $amount: 0.8);
+            color: #ee6838;
+          }
+
+          &:hover {
+            &:first-child {
+              background: transparentize($color: #fbc830, $amount: 0.5);
+            }
+
+            &:last-child {
+              background: transparentize($color: #ee6838, $amount: 0.5);
+            }
+          }
+        }
+      }
+    }
+  }
+}

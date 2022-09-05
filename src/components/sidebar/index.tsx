@@ -8,6 +8,7 @@ import LeftArrowIcon from "@svg/arrow-left.svg";
 import RightArrowIcon from "@svg/arrow-right.svg";
 import DashboardIcon from "@svg/home-icon.svg";
 import ProductsIcon from "@svg/box-icon.svg";
+import MoneyIcon from "@svg/money-icon.svg";
 import LogoutIcon from "@svg/logout-icon.svg";
 import AnalyticsIcon from "@svg/stats-report-icon.svg";
 import styles from "./styles.module.scss";
@@ -36,6 +37,11 @@ const sideBarMenuItems = [
     icon: <AnalyticsIcon />,
     link: "/gerenciamento/analise-de-rendimentos/resultados",
     description: "Visualizar análise de rendimentos",
+  },
+  {
+    icon: <MoneyIcon />,
+    link: "/gerenciamento/cadastro-de-custos",
+    description: "Custos",
   },
 ];
 
