@@ -51,9 +51,8 @@ export const AuthContextProvider = ({ children }: Props) => {
       setUser(user);
       setToken(token);
 
-      console.log(user);
-
       if (user.userType === "user") Router.push("/gerenciamento");
+      if (user.userType === "admin") Router.push("/admin/usuarios");
     } catch (err) {
       throw err;
     }
