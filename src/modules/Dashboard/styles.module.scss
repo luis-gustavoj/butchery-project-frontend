@@ -3,3 +3,27 @@
   justify-content: space-between;
   margin-bottom: 1rem;
 }
+
+.charts-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 1.5rem;
+  grid-template-areas: "a b" "c c";
+
+  .chart {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    background: var(--white);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0px 4px 51px rgba(0, 0, 0, 0.11);
+
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
