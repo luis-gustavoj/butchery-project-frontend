@@ -45,11 +45,26 @@ const sideBarMenuItems = [
   },
 ];
 
+const adminSideBarMenuItems = [
+  {
+    icon: <DashboardIcon />,
+    link: "/admin/dashboard",
+    description: "Dashboard",
+  },
+  {
+    icon: <ProductsIcon />,
+    link: "/admin/usuarios",
+    description: "Usuários",
+  },
+];
+
 export const Sidebar = () => {
   const { width } = useWindowSize();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const router = useRouter();
-  const { signOut } = useAuthContext();
+  const { signOut, user } = useAuthContext();
+  const sideBarMenuItemsToRender =
+    user?.userType === "admin" ? adminSideBarMenuItems : sideBarMenuItems;
 
   const sideBarClassNames = joinClassnames(styles.sidebar, {
     [styles.collapsed]: isSidebarCollapsed,
@@ -85,7 +100,7 @@ export const Sidebar = () => {
       </div>
       <div className={styles.sidebarContent}>
         <CategoryMenu collapsed={isSidebarCollapsed}>
-          {sideBarMenuItems.map((menuItem) => (
+          {sideBarMenuItemsToRender.map((menuItem) => (
             <MenuItem
               active={menuItem.link === router.pathname}
               href={menuItem.link}
