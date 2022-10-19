@@ -26,7 +26,7 @@ type LoginResponse = {
 };
 
 async function login(body: LoginUserRequestBody) {
-  return api.post<LoginResponse>("/login", body);
+  return api.post<LoginResponse>("/auth/login", body);
 }
 
 export const auth = {

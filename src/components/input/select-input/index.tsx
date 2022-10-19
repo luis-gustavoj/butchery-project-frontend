@@ -46,7 +46,6 @@ const SelectInputBase: ForwardRefRenderFunction<
   const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    console.log(value);
     value && setSearchValue(getOptionTitle(optionList, value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -65,6 +64,10 @@ const SelectInputBase: ForwardRefRenderFunction<
     onSelectOption(name, option.value);
     setIsOptionListVisible(false);
   };
+
+  useEffect(() => {
+    setOptionsList(options);
+  }, [options]);
 
   return (
     <div className={styles.selectInputContainer} ref={inputWrapperRef}>

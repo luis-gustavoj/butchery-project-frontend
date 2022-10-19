@@ -1,8 +1,20 @@
+import { ParsedAnalysisProduct } from "src/@types";
 import { Panel } from "./panel";
 import styles from "./styles.module.scss";
 import { AnalysisTable } from "./table";
 
-export const OperationAnalysis = () => {
+type OperationAnalysisProps = {
+  report: {
+    totalWeightAfterBoning: number | string;
+    totalChargedByFrig: number | string;
+    weightAfterInvisibleLoss: number | string;
+    lossOnBoning: number | string;
+    revenueAfterBoningPercent: number | string;
+    products: ParsedAnalysisProduct[];
+  };
+};
+
+export const OperationAnalysis = ({ report }: OperationAnalysisProps) => {
   return (
     <div className={styles.operationalAnalysisContainer}>
       <div>
@@ -13,7 +25,7 @@ export const OperationAnalysis = () => {
         <h2>Cortes</h2>
         <div className={styles.tableContainer}>
           <div>
-            <AnalysisTable />
+            <AnalysisTable products={report.products} />
           </div>
         </div>
       </div>

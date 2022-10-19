@@ -1,18 +1,25 @@
 import styles from "./styles.module.scss";
 
 import { useState } from "react";
-import { AnalysisProduct } from "src/@types";
+import { AnalysisProduct, ProductType } from "src/@types";
 import { TableRow } from "./table-row";
+import React from "react";
 
-export const AnalysisTable = () => {
+type AnalysisTableProps = {
+  products: ProductType[];
+  category: string;
+};
+
+export const AnalysisTable = ({ products, category }: AnalysisTableProps) => {
   const [analysisProducts, setAnalysisProducts] = useState<AnalysisProduct[]>(
     []
   );
 
   const handleSaveAnalysisProduct = (product: AnalysisProduct) => {
     const existingProduct = analysisProducts.find((p) => p.id === product.id);
+    let newProducts = [];
     if (existingProduct) {
-      const newProducts = analysisProducts.map((p) => {
+      newProducts = analysisProducts.map((p) => {
         if (p.id === product.id) {
           return product;
         }
@@ -20,13 +27,34 @@ export const AnalysisTable = () => {
       });
       setAnalysisProducts(newProducts);
     } else {
-      setAnalysisProducts([...analysisProducts, product]);
+      newProducts = [...analysisProducts, product];
+      setAnalysisProducts(newProducts);
     }
+    localStorage.setItem(
+      `analysisProducts-${category}`,
+      JSON.stringify(newProducts)
+    );
   };
 
   const handleRemoveAnalysisProduct = (product: AnalysisProduct) => {
-    setAnalysisProducts(analysisProducts.filter((p) => p.id !== product.id));
+    const newProducts = analysisProducts.filter((p) => p.id !== product.id);
+    setAnalysisProducts(newProducts);
+    localStorage.setItem(
+      `analysisProducts-${category}`,
+      JSON.stringify(newProducts)
+    );
   };
+
+  React.useEffect(() => {
+    const products = localStorage.getItem(`analysisProducts-${category}`);
+    if (products) {
+      setAnalysisProducts(JSON.parse(products));
+    }
+  }, [category]);
+
+  const availableProducts = products.filter(
+    (p) => !analysisProducts.find((ap) => ap.id === p.id)
+  );
 
   return (
     <div className={styles.analysisTable}>
@@ -43,6 +71,7 @@ export const AnalysisTable = () => {
         {analysisProducts.map((analysisProduct, index) => {
           return (
             <TableRow
+              availableProducts={availableProducts}
               rowNumber={index + 1}
               product={analysisProduct}
               key={`product-${analysisProduct.id}`}
@@ -52,6 +81,7 @@ export const AnalysisTable = () => {
           );
         })}
         <TableRow
+          availableProducts={availableProducts}
           handleSaveAnalysisProduct={handleSaveAnalysisProduct}
           handleRemoveAnalysisProduct={handleRemoveAnalysisProduct}
         />

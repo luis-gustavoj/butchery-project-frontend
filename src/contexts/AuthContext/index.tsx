@@ -1,6 +1,6 @@
 import Router from "next/router";
-import { destroyCookie, setCookie } from "nookies";
-import React, { createContext, useContext, useState } from "react";
+import { destroyCookie, setCookie, parseCookies } from "nookies";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "src/@types";
 import { api, auth } from "src/services";
 
@@ -34,6 +34,20 @@ export const AuthContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string>(null);
 
+  useEffect(() => {
+    const { "butcher.access_token": token } = parseCookies();
+
+    if (token) {
+      setToken(token);
+      try {
+        const userData = JSON.parse(localStorage.getItem("butcher.user"));
+        setUser(userData);
+      } catch (err) {
+        handleSignOut();
+      }
+    }
+  }, []);
+
   const handleSignIn = async (credentials: SignInCredentials) => {
     try {
       const { data } = await auth.login(credentials);
@@ -48,6 +62,7 @@ export const AuthContextProvider = ({ children }: Props) => {
 
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
+      localStorage.setItem("butcher.user", JSON.stringify(user));
       setUser(user);
       setToken(token);
 

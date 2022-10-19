@@ -2,6 +2,15 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+
+  button {
+    background: var(--primary);
+    color: var(--white);
+
+    &:hover {
+      background: var(--primary-darker);
+    }
+  }
 }
 
 .tabs-container {

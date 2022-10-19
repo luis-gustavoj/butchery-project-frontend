@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "src/components/button";
-import { useProductsContext } from "src/contexts/products/context";
 import { Layout } from "../layout/Layout";
 import styles from "./styles.module.scss";
 import PlusIcon from "@svg/plus-icon.svg";
@@ -8,9 +7,12 @@ import { Tabs } from "src/components/tabs";
 import { TabContainer } from "src/components/tabs/tab-container";
 import { ProductsContainer } from "src/components/products-container";
 import { ProductModal } from "src/components/product-modal";
+import { useProductsQuery } from "src/hooks/useProducts";
+import { useAuthContext } from "src/contexts/AuthContext";
 
 export const ProductsModule = () => {
-  const { products } = useProductsContext();
+  const { user } = useAuthContext();
+  const { data } = useProductsQuery(user?.id);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -21,6 +23,19 @@ export const ProductsModule = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const bovProducts = data?.data.filter(
+    (product) => product.category === "BOV"
+  );
+  const suiProducts = data?.data.filter(
+    (product) => product.category === "SUI"
+  );
+  const frnProducts = data?.data.filter(
+    (product) => product.category === "FRN"
+  );
+  const cxaProducts = data?.data.filter(
+    (product) => product.category === "CXA"
+  );
 
   return (
     <Layout>
@@ -33,16 +48,16 @@ export const ProductsModule = () => {
       </div>
       <Tabs containerClassName={styles.tabsContainer}>
         <TabContainer label="Bovino" className={styles.tabContainer}>
-          <ProductsContainer products={products["BOV"]} category="BOV" />
+          <ProductsContainer products={bovProducts} category="BOV" />
         </TabContainer>
         <TabContainer label="Suíno">
-          <ProductsContainer products={products["SUI"]} category="SUI" />
+          <ProductsContainer products={suiProducts} category="SUI" />
         </TabContainer>
         <TabContainer label="Aves">
-          <ProductsContainer products={products["FRN"]} category="FRN" />
+          <ProductsContainer products={frnProducts} category="FRN" />
         </TabContainer>
         <TabContainer label="Caixaria">
-          <ProductsContainer products={products["CXA"]} category="CXA" />
+          <ProductsContainer products={cxaProducts} category="CXA" />
         </TabContainer>
       </Tabs>
       <ProductModal isOpen={isModalOpen} onRequestClose={handleCloseModal} />

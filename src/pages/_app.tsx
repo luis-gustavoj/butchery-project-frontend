@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import { AuthContextProvider } from "src/contexts/AuthContext";
-import { ProductsContextProvider } from "src/contexts/products/context";
+import { ReactQueryProvider } from "src/provider/ReactQueryProvider";
 import "../styles/globals.scss";
 
 Modal.setAppElement("#__next");
@@ -8,9 +8,9 @@ Modal.setAppElement("#__next");
 function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      <ProductsContextProvider>
+      <ReactQueryProvider>
         <Component {...pageProps} />
-      </ProductsContextProvider>
+      </ReactQueryProvider>
     </AuthContextProvider>
   );
 }

@@ -5,19 +5,13 @@ import TrashIcon from "@svg/trash-icon.svg";
 import SaveIcon from "@svg/save-icon.svg";
 import CancelIcon from "@svg/cancel-icon.svg";
 import EditIcon from "@svg/edit-icon.svg";
-import { useState } from "react";
-import { AnalysisProduct } from "src/@types";
+import { useMemo, useState } from "react";
+import { AnalysisProduct, ProductType } from "src/@types";
 import { v4 as uuidv4 } from "uuid";
-
-const MOCKED_OPTIONS = [
-  {
-    value: "Carne 01",
-    title: "Carne 01",
-  },
-];
 
 type TableRowProps = {
   product?: AnalysisProduct;
+  availableProducts: ProductType[];
   rowNumber?: number;
   handleSaveAnalysisProduct: (product: AnalysisProduct) => void;
   handleRemoveAnalysisProduct: (product: AnalysisProduct) => void;
@@ -28,6 +22,7 @@ export const TableRow = ({
   handleSaveAnalysisProduct,
   handleRemoveAnalysisProduct,
   rowNumber,
+  availableProducts,
 }: TableRowProps) => {
   const [name, setName] = useState(product?.name || "");
   const [weight, setWeight] = useState(product?.weight || 0);
@@ -37,7 +32,7 @@ export const TableRow = ({
 
   const onSaveAnalysisProduct = () => {
     const newProduct = {
-      id: product?.id || uuidv4(),
+      id: availableProducts.find((p) => p.name === name).id,
       name,
       weight,
       price,
@@ -48,13 +43,22 @@ export const TableRow = ({
     }
   };
 
+  const productOptions = useMemo(
+    () =>
+      availableProducts?.map((p) => ({
+        value: p.name,
+        title: p.name,
+      })),
+    [availableProducts]
+  );
+
   return (
     <div className={styles.row}>
       <div>{rowNumber}</div>
       <div>
         {isEditing ? (
           <SelectInput
-            options={MOCKED_OPTIONS}
+            options={productOptions}
             value={name}
             onSelectOption={(_, value: string) => setName(value)}
             name="select"

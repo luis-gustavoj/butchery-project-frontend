@@ -21,7 +21,21 @@ export type AnalysisProduct = {
   name?: string;
   weight?: number;
   price?: number;
-  id?: number;
+  id?: string;
+};
+
+export type ParsedAnalysisProduct = {
+  name: string;
+  weight: number;
+  percentageAfterBoning: string;
+  priceChargedByFrig: string;
+  realKgPriceChargedBy: string;
+  realPricePayedToFrig: string;
+  markup: string;
+  markdown: string;
+  invoicing: string;
+  contributionPercentage: string;
+  price: string;
 };
 
 export type User = {

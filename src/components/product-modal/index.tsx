@@ -1,26 +1,16 @@
 import { ProductType } from "src/@types";
-
-// Components
+import { products as productsService } from "src/services";
 import { Modal } from "../modal";
 import { Input } from "../input";
 import { SelectInput } from "../input/select-input";
-
-// Hooks
 import { useForm } from "react-hook-form";
-import { useProductsContext } from "src/contexts/products/context";
-
-// Reducer actions
-import { addProduct, editProduct } from "src/contexts/products/actions";
-
-// Icons
 import PlusIcon from "@svg/plus-icon.svg";
-
-// Styles
 import styles from "./styles.module.scss";
 import { useEffect } from "react";
 import { Button } from "../button";
+import { useAuthContext } from "src/contexts/AuthContext";
+import { queryClient } from "src/provider/ReactQueryProvider";
 
-// Types
 interface ProductModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
@@ -39,15 +29,13 @@ type FormInput = {
   type?: string;
 };
 
-// Select category input option list
 const categoryOptionList: Option[] = [
   { value: "BOV", title: "Bovino" },
   { value: "SUI", title: "Suíno" },
-  { value: "FRAN", title: "Aves" },
-  { value: "CAIX", title: "Caixaria" },
+  { value: "FRN", title: "Aves" },
+  { value: "CXA", title: "Caixaria" },
 ];
 
-// Select type input option list
 const typeOptionList: Option[] = [
   { title: "Dianteiro", value: "Dianteiro" },
   { title: "Traseiro", value: "Traseiro" },
@@ -59,7 +47,7 @@ export const ProductModal = ({
   isEditing = false,
   product,
 }: ProductModalProps) => {
-  const { dispatch, products } = useProductsContext();
+  const { user } = useAuthContext();
 
   const {
     handleSubmit,
@@ -86,11 +74,16 @@ export const ProductModal = ({
   }, []);
 
   // Handle submit form
-  const onSubmit = (data: FormInput) => {
+  const onSubmit = async (formData: FormInput) => {
     if (isEditing) {
-      dispatch(editProduct({ ...data, id: product.id }));
     } else {
-      dispatch(addProduct(data));
+      const newProduct = {
+        name: formData.name,
+        userID: user.id,
+        category: formData.category,
+      };
+      await productsService.create(newProduct);
+      queryClient.invalidateQueries(["products"]);
       reset({ name: "", type: "" });
     }
   };
