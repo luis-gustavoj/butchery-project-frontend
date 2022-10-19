@@ -12,7 +12,7 @@ interface TabsProps {
 }
 
 export const Tabs = ({ children, containerClassName }: TabsProps) => {
-  const [activeTab, setActiveTab] = useState(children[0].props.label);
+  const [activeTab, setActiveTab] = useState(children[0]?.props?.label || "");
 
   const onClickTabItem = (tab: string) => {
     setActiveTab(tab);
@@ -22,6 +22,7 @@ export const Tabs = ({ children, containerClassName }: TabsProps) => {
     <div className={containerClassName}>
       <ol className={styles.tabList}>
         {children.map((child) => {
+          if (!child) return null;
           const { label } = child.props;
 
           return (
@@ -35,6 +36,7 @@ export const Tabs = ({ children, containerClassName }: TabsProps) => {
         })}
       </ol>
       {children.map((child) => {
+        if (!child) return null;
         if (child.props.label !== activeTab) return undefined;
         return child;
       })}

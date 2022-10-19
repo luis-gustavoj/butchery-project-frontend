@@ -10,14 +10,12 @@ export const ResultsAnalysisModule = () => {
   const { user } = useAuthContext();
   const { data } = useReportsQuery(user?.id);
 
-  console.log(data);
-
   return (
     <Layout>
       <div className={styles.titleContainer}>
         <h1>Análise de rendimento</h1>
       </div>
-      {data?.data && (
+      {data?.data ? (
         <Tabs containerClassName={styles.tabsContainer}>
           {data.data["BOV"] && (
             <TabContainer label="Bovino" className={styles.tabContainer}>
@@ -40,6 +38,8 @@ export const ResultsAnalysisModule = () => {
             </TabContainer>
           )}
         </Tabs>
+      ) : (
+        <div>Carregando...</div>
       )}
     </Layout>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Input } from "src/components/input";
+import { parseToCurrency } from "src/utils/parseToCurrency";
 import styles from "./styles.module.scss";
 
 type PanelProps = {
@@ -49,7 +50,7 @@ export const Panel = ({ category }: PanelProps) => {
         </div>
         <div className={styles.inputDataContainer}>
           <p>Total Cobrado Frigorífico:</p>
-          <p>R$ 3.995,00</p>
+          <p>{parseToCurrency(totalWeight * totalPrice)}</p>
         </div>
       </div>
     </div>

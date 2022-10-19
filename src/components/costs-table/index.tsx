@@ -4,6 +4,7 @@ import styles from "./styles.module.scss";
 import React, { useState } from "react";
 import { CostModal } from "../costs-modal";
 import { Cost } from "src/@types";
+import { parseToCurrency } from "src/utils/parseToCurrency";
 
 interface CostsTableProps {
   costs: Cost[];
@@ -39,11 +40,11 @@ export const CostsTable = ({
       <tbody>
         {costs !== null &&
           costs?.map((cost) => (
-            <React.Fragment key={cost.description}>
+            <React.Fragment key={cost.name}>
               <tr>
-                <td>{cost.description}</td>
-                <td>{cost.type === "fixed" ? "Fixo" : "Variável"}</td>
-                <td>{cost.value}</td>
+                <td>{cost.name}</td>
+                <td>{cost.type === "FIXED" ? "Fixo" : "Variável"}</td>
+                <td>{parseToCurrency(Number(cost.value))}</td>
                 <td className={styles.actionsContainer}>
                   <button type="button" onClick={() => handleOpenModal()}>
                     <EditIcon />

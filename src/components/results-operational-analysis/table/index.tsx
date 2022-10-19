@@ -32,12 +32,12 @@ export const AnalysisTable = ({ products }: AnalysisTableProps) => {
               <td>{index + 1}</td>
               <td>{product.name}</td>
               <td>KG {product.weight}</td>
-              <td>{product.percentageAfterBoning}%</td>
+              <td>{product.percentageAfterBoning}</td>
               <td>{product.priceChargedByFrig}</td>
               <td>{product.realKgPriceChargedBy}</td>
               <td>{product.realPricePayedToFrig}</td>
               <td>{product.markup}</td>
-              <td>{product.markdown}%</td>
+              <td>{product.markdown}</td>
               <td>{product.price}</td>
               <td>{product.invoicing}</td>
               <td>{product.contributionPercentage}</td>

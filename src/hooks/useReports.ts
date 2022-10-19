@@ -75,11 +75,9 @@ const generateReport = (report: Report, category: string) => {
 const parseReportsValue = async (userId: string) => {
   const request = await reports.getAll(userId);
 
-  const { reportData } = request.data[3];
+  const { reportData } = request.data[1];
 
   if (!reportData) return;
-
-  console.log(reportData);
 
   const bovReport = generateReport(reportData.BOV, "BOV");
   const suiReport = generateReport(reportData.SUI, "SUI");

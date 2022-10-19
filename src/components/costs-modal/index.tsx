@@ -27,8 +27,8 @@ type FormInput = {
 };
 
 const costTypeOptions: Option[] = [
-  { value: "fixed", title: "Fixo" },
-  { value: "variable", title: "Variável" },
+  { value: "FIXED", title: "Fixo" },
+  { value: "VARIABLE", title: "Variável" },
 ];
 
 export const CostModal = ({
@@ -45,15 +45,11 @@ export const CostModal = ({
     formState: { errors, isSubmitting },
   } = useForm<FormInput>({
     defaultValues: {
-      description: initialValue?.description || "",
+      description: initialValue?.name || "",
       type: initialValue?.type || "",
       value: initialValue?.value || 0,
     },
   });
-
-  useEffect(() => {
-    console.log("initialValue", initialValue);
-  }, [initialValue]);
 
   const formValues = watch();
 
@@ -63,7 +59,7 @@ export const CostModal = ({
 
   const onSubmit = (data: FormInput) => {
     const cost = {
-      description: data.description,
+      name: data.description,
       type: data.type,
       value: data.value,
     };

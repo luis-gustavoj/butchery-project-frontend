@@ -6,25 +6,29 @@ import { useState } from "react";
 import { CostModal } from "src/components/costs-modal";
 import { Cost } from "src/@types";
 import { CostsTable } from "src/components/costs-table";
+import { useCostsQuery } from "src/hooks/useCosts";
+import { costs } from "src/services";
+import { useAuthContext } from "src/contexts/AuthContext";
+import { queryClient } from "src/provider/ReactQueryProvider";
 
 export const CostsModule = () => {
-  const [costs, setCosts] = useState<Cost[]>([]);
+  const { user } = useAuthContext();
+  const { data } = useCostsQuery(user?.id);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleAddCost = (cost: Cost) => {
-    setCosts([...costs, cost]);
+  const handleAddCost = async (cost: Cost) => {
+    const res = await costs.create({
+      ...cost,
+      userID: user?.id,
+    });
+    queryClient.invalidateQueries(["costs"]);
   };
 
-  const handleDeleteCost = (cost: Cost) => {
-    const filteredCosts = costs.filter(
-      (c) => c.description !== cost.description
-    );
-    setCosts(filteredCosts);
-  };
+  const handleDeleteCost = (cost: Cost) => {};
 
   return (
     <Layout>
@@ -36,11 +40,13 @@ export const CostsModule = () => {
         </Button>
       </div>
       <div className={styles.costTableContainer}>
-        <CostsTable
-          costs={costs}
-          handleAddCost={handleAddCost}
-          handleDeleteCost={handleDeleteCost}
-        />
+        {data?.data && (
+          <CostsTable
+            costs={data.data}
+            handleAddCost={handleAddCost}
+            handleDeleteCost={handleDeleteCost}
+          />
+        )}
       </div>
       <CostModal
         isOpen={isModalOpen}
@@ -50,3 +56,6 @@ export const CostsModule = () => {
     </Layout>
   );
 };
+function useAuth(): { user: any } {
+  throw new Error("Function not implemented.");
+}
