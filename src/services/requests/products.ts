@@ -10,6 +10,10 @@ async function create(body: CreateProductRequestBody) {
   return api.post("/products", body);
 }
 
+async function deleteProduct(productId: string) {
+  return api.delete(`/products/${productId}`);
+}
+
 async function getAll(userId: string) {
   return api.get(`/products/${userId}`);
 }
@@ -17,4 +21,5 @@ async function getAll(userId: string) {
 export const products = {
   create,
   getAll,
+  deleteProduct,
 };

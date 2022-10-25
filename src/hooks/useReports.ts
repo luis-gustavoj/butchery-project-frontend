@@ -14,6 +14,15 @@ type Report = {
   totalPrice: number;
 };
 
+type Reports = {
+  reportData: {
+    BOV: Report;
+    SUI: Report;
+    FRN: Report;
+    CXA: Report;
+  };
+};
+
 const INVISIBLE_LOSE = {
   BOV: 5,
   SUI: 3,
@@ -37,6 +46,10 @@ const generateReport = (report: Report, category: string) => {
   );
   const realKgPrice = formatAsCurrency(
     totalChargedByFrig / totalWeightAfterBoning
+  );
+  const revenue = report.products.reduce(
+    (acc, product) => acc + product.price * product.weight,
+    0
   );
   const products = report.products.map((product) => ({
     name: product.name,
@@ -63,19 +76,25 @@ const generateReport = (report: Report, category: string) => {
     price: formatAsCurrency(product.price),
   }));
   return {
-    totalWeightAfterBoning,
-    totalChargedByFrig,
-    weightAfterInvisibleLoss,
-    lossOnBoning,
-    revenueAfterBoningPercent,
+    panel: {
+      totalWeightAfterBoning,
+      totalChargedByFrig,
+      weightAfterInvisibleLoss,
+      lossOnBoning,
+      revenueAfterBoningPercent,
+      totalPrice: report.totalPrice,
+      totalWeight: report.totalWeight,
+      revenue: revenue,
+      invisibleLoss: INVISIBLE_LOSE[category] || undefined,
+    },
     products,
   };
 };
 
-const parseReportsValue = async (userId: string) => {
-  const request = await reports.getAll(userId);
+const parseReportsValue = async (userId: string, reportId: string) => {
+  const request = await reports.getById<Reports>(userId, reportId);
 
-  const { reportData } = request.data[1];
+  const { reportData } = request.data;
 
   if (!reportData) return;
 
@@ -97,17 +116,21 @@ const parseReportsValue = async (userId: string) => {
   };
 };
 
-export function useReportsQuery(userId: string) {
-  return useQuery(["reports"], () => parseReportsValue(userId), {
-    enabled: !!userId,
-    keepPreviousData: true,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    retry(failureCount) {
-      if (failureCount > 3) {
-        return false;
-      }
-      return true;
-    },
-  });
+export function useReportsQuery(userId: string, reportId: string) {
+  return useQuery(
+    ["reports", reportId],
+    () => parseReportsValue(userId, reportId),
+    {
+      enabled: !!userId && !!reportId,
+      keepPreviousData: true,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      retry(failureCount) {
+        if (failureCount > 3) {
+          return false;
+        }
+        return true;
+      },
+    }
+  );
 }

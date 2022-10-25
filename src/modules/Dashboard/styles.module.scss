@@ -2,6 +2,13 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+
+  input {
+    min-width: 320px;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--grey-700);
+  }
 }
 
 .charts-container {

@@ -5,11 +5,17 @@ import { AnalysisTable } from "./table";
 
 type OperationAnalysisProps = {
   report: {
-    totalWeightAfterBoning: number | string;
-    totalChargedByFrig: number | string;
-    weightAfterInvisibleLoss: number | string;
-    lossOnBoning: number | string;
-    revenueAfterBoningPercent: number | string;
+    panel: {
+      totalWeightAfterBoning: number;
+      totalChargedByFrig: number;
+      weightAfterInvisibleLoss: number;
+      lossOnBoning: number;
+      revenueAfterBoningPercent: string;
+      totalWeight: number;
+      totalPrice: number;
+      invisibleLoss: number;
+      revenue: number;
+    };
     products: ParsedAnalysisProduct[];
   };
 };
@@ -19,13 +25,16 @@ export const OperationAnalysis = ({ report }: OperationAnalysisProps) => {
     <div className={styles.operationalAnalysisContainer}>
       <div>
         <h2>Painel</h2>
-        <Panel />
+        <Panel panelInfo={report.panel} />
       </div>
       <div>
         <h2>Cortes</h2>
         <div className={styles.tableContainer}>
           <div>
-            <AnalysisTable products={report.products} />
+            <AnalysisTable
+              products={report.products}
+              panelInfo={report.panel}
+            />
           </div>
         </div>
       </div>

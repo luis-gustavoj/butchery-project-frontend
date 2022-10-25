@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { Button } from "../button";
 import { useAuthContext } from "src/contexts/AuthContext";
 import { queryClient } from "src/provider/ReactQueryProvider";
+import toast from "react-hot-toast";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -37,8 +38,8 @@ const categoryOptionList: Option[] = [
 ];
 
 const typeOptionList: Option[] = [
-  { title: "Dianteiro", value: "Dianteiro" },
-  { title: "Traseiro", value: "Traseiro" },
+  { title: "Dianteiro", value: "DIANT" },
+  { title: "Traseiro", value: "TRAS" },
 ];
 
 export const ProductModal = ({
@@ -62,7 +63,6 @@ export const ProductModal = ({
   });
 
   const formValues = getValues();
-  const watchCategoryField = watch("category");
 
   useEffect(() => {
     if (isEditing && product) {
@@ -82,9 +82,13 @@ export const ProductModal = ({
         userID: user.id,
         category: formData.category,
       };
-      await productsService.create(newProduct);
+      await toast.promise(productsService.create(newProduct), {
+        loading: "Salvando produto...",
+        success: "Produto salvo com sucesso!",
+        error: "Erro ao salvar produto",
+      });
       queryClient.invalidateQueries(["products"]);
-      reset({ name: "", type: "" });
+      reset({ name: "", type: "", category: "" });
     }
   };
 
@@ -95,6 +99,8 @@ export const ProductModal = ({
   ) => {
     setValue(fieldName, value);
   };
+
+  const category = watch("category");
 
   return (
     <Modal
@@ -114,22 +120,11 @@ export const ProductModal = ({
           <Input type="text" name="name" {...register("name")} />
           <label htmlFor="category">Categoria</label>
           <SelectInput
-            value={formValues.category}
+            value={category}
             options={categoryOptionList}
             {...register("category")}
             onSelectOption={handleSelectOption}
           />
-          {watchCategoryField === "BOV" && (
-            <>
-              <label htmlFor="type">Tipo</label>
-              <SelectInput
-                value={formValues.type}
-                options={typeOptionList}
-                {...register("type")}
-                onSelectOption={handleSelectOption}
-              />
-            </>
-          )}
           <Button outline type="submit">
             Salvar
           </Button>

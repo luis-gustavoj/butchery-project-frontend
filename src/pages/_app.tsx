@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import Modal from "react-modal";
 import { AuthContextProvider } from "src/contexts/AuthContext";
 import { ReactQueryProvider } from "src/provider/ReactQueryProvider";
@@ -10,6 +11,7 @@ function MyApp({ Component, pageProps }) {
     <AuthContextProvider>
       <ReactQueryProvider>
         <Component {...pageProps} />
+        <Toaster />
       </ReactQueryProvider>
     </AuthContextProvider>
   );

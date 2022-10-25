@@ -26,29 +26,19 @@ interface SelectInputProps {
   options: Option[];
   name: string;
   value?: string | null;
+  placeholder?: string;
   onSelectOption: (...args: any[]) => void;
 }
-
-const getOptionTitle = (optionArray: Option[], value: string) => {
-  const option = optionArray.filter(
-    (option) => option.title === value || option.value === value
-  );
-
-  return option[0].title;
-};
 
 const SelectInputBase: ForwardRefRenderFunction<
   HTMLSelectElement,
   SelectInputProps
-> = ({ options, onSelectOption, value = null, name, ...rest }, ref) => {
+> = (
+  { options, onSelectOption, value = null, name, placeholder, ...rest },
+  ref
+) => {
   const [optionList, setOptionsList] = useState(options);
   const [isOptionListVisible, setIsOptionListVisible] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-
-  useEffect(() => {
-    value && setSearchValue(getOptionTitle(optionList, value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const { x, y, placement, reference, floating, strategy } = useFloating({
     placement: "bottom-start",
@@ -60,7 +50,6 @@ const SelectInputBase: ForwardRefRenderFunction<
   useOutsideClick(inputWrapperRef, () => setIsOptionListVisible(false));
 
   const handleOnSelectOption = (option: Option) => {
-    setSearchValue(option.title);
     onSelectOption(name, option.value);
     setIsOptionListVisible(false);
   };
@@ -69,13 +58,13 @@ const SelectInputBase: ForwardRefRenderFunction<
     setOptionsList(options);
   }, [options]);
 
+  const currentOption = optionList?.find((option) => option.value === value);
+
   return (
     <div className={styles.selectInputContainer} ref={inputWrapperRef}>
       <div ref={reference} className={styles.inputContainer}>
         <input
-          onChange={(e) => {
-            setSearchValue(e.target.value);
-          }}
+          placeholder={placeholder}
           onClick={() => {
             setIsOptionListVisible(true);
           }}
@@ -84,14 +73,22 @@ const SelectInputBase: ForwardRefRenderFunction<
           }}
           autoComplete="new-password"
           type="text"
-          value={searchValue}
+          value={currentOption?.title || ""}
+          readOnly
         />
-        <select ref={ref} {...rest} className={styles.invisibleInput}>
-          {optionList.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.title}
-            </option>
-          ))}
+        <select
+          ref={ref}
+          name={name}
+          value={value}
+          {...rest}
+          className={styles.invisibleInput}
+        >
+          {optionList &&
+            optionList.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.title}
+              </option>
+            ))}
         </select>
         <div className={styles.iconContainer}>
           <ArrowDownIcon

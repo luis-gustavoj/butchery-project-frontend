@@ -1,12 +1,28 @@
+import { format } from "path";
 import { ParsedAnalysisProduct } from "src/@types";
 import { products } from "src/services";
+import { formatAsCurrency } from "src/utils/formatAsCurrency";
+import { formatAsPercent } from "src/utils/formatAsPercentage";
 import styles from "./styles.module.scss";
 
 type AnalysisTableProps = {
   products: ParsedAnalysisProduct[] | undefined;
+  panelInfo: {
+    totalWeightAfterBoning: number;
+    totalChargedByFrig: number;
+    weightAfterInvisibleLoss: number;
+    lossOnBoning: number;
+    revenueAfterBoningPercent: string;
+    totalWeight: number;
+    totalPrice: number;
+    invisibleLoss: number;
+    revenue: number;
+  };
 };
 
-export const AnalysisTable = ({ products }: AnalysisTableProps) => {
+export const AnalysisTable = ({ panelInfo, products }: AnalysisTableProps) => {
+  const newProducts = [...products, ...products];
+
   return (
     <table className={styles.analysisTable}>
       <thead>
@@ -45,6 +61,45 @@ export const AnalysisTable = ({ products }: AnalysisTableProps) => {
           );
         })}
       </tbody>
+      <tfoot>
+        <tr>
+          <td />
+          <td>Total dos cortes</td>
+          <td>{panelInfo.totalWeightAfterBoning}</td>
+          <td>{panelInfo.revenueAfterBoningPercent}</td>
+          <td />
+          <td />
+          <td>{formatAsCurrency(panelInfo.totalChargedByFrig)}</td>
+          <td></td>
+          <td>
+            {formatAsPercent(
+              (panelInfo.revenue - panelInfo.totalChargedByFrig) /
+                panelInfo.revenue
+            )}
+          </td>
+          <td />
+          <td>{formatAsCurrency(panelInfo.revenue)}</td>
+          <td>
+            {formatAsPercent(
+              panelInfo.revenue / panelInfo.totalChargedByFrig - 1
+            )}
+          </td>
+        </tr>
+        <tr>
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td>Valor Real da Peça</td>
+          <td />
+          <td>Mardown</td>
+          <td />
+          <td>Faturamento Total</td>
+          <td>Markup</td>
+        </tr>
+      </tfoot>
     </table>
   );
 };

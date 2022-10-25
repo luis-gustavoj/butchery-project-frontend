@@ -8,12 +8,16 @@ import { Layout } from "../layout";
 import styles from "./styles.module.scss";
 import SaveIcon from "@svg/save-icon.svg";
 import { reports } from "src/services";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import { queryClient } from "src/provider/ReactQueryProvider";
 
 const CATEGORIES = ["BOV", "SUI", "FRN", "CXA"];
 
 export const AnalysisModule = () => {
   const { user } = useAuthContext();
   const { data } = useProductsQuery(user?.id);
+  const [success, setSuccess] = useState(false);
 
   const bovProducts = data?.data.filter(
     (product) => product.category === "BOV"
@@ -43,10 +47,29 @@ export const AnalysisModule = () => {
         },
       };
     }, {});
-    await reports.create({
-      userID: user?.id,
-      reportData: reportData,
-    });
+    toast.promise(
+      reports.create({
+        userID: user?.id,
+        reportData: reportData,
+      }),
+      {
+        success: () => {
+          CATEGORIES.forEach((category) => {
+            localStorage.removeItem(`analysisProducts-${category}`);
+            localStorage.removeItem(`totalWeight-${category}`);
+            localStorage.removeItem(`totalPrice-${category}`);
+          });
+
+          setSuccess((prev) => !prev);
+          setSuccess((prev) => !prev);
+          queryClient.invalidateQueries(["select-reports"]);
+
+          return "Análise salva com sucesso!";
+        },
+        error: () => "Erro ao salvar análise",
+        loading: "Salvando análise...",
+      }
+    );
   };
 
   return (
@@ -58,20 +81,22 @@ export const AnalysisModule = () => {
           <span>Salvar análise</span>
         </Button>
       </div>
-      <Tabs containerClassName={styles.tabsContainer}>
-        <TabContainer label="Bovino" className={styles.tabContainer}>
-          <OperationAnalysis products={bovProducts} category="BOV" />
-        </TabContainer>
-        <TabContainer label="Suíno" className={styles.tabContainer}>
-          <OperationAnalysis products={suiProducts} category="SUI" />
-        </TabContainer>
-        <TabContainer label="Aves" className={styles.tabContainer}>
-          <OperationAnalysis products={frnProducts} category="FRN" />
-        </TabContainer>
-        <TabContainer label="Caixaria" className={styles.tabContainer}>
-          <OperationAnalysis products={cxaProducts} category="CXA" />
-        </TabContainer>
-      </Tabs>
+      {!success && (
+        <Tabs containerClassName={styles.tabsContainer}>
+          <TabContainer label="Bovino" className={styles.tabContainer}>
+            <OperationAnalysis products={bovProducts} category="BOV" />
+          </TabContainer>
+          <TabContainer label="Suíno" className={styles.tabContainer}>
+            <OperationAnalysis products={suiProducts} category="SUI" />
+          </TabContainer>
+          <TabContainer label="Aves" className={styles.tabContainer}>
+            <OperationAnalysis products={frnProducts} category="FRN" />
+          </TabContainer>
+          <TabContainer label="Caixaria" className={styles.tabContainer}>
+            <OperationAnalysis products={cxaProducts} category="CXA" />
+          </TabContainer>
+        </Tabs>
+      )}
     </Layout>
   );
 };

@@ -25,5 +25,10 @@
       background: var(--primary);
       color: var(--white);
     }
+
+    &:disabled {
+      background: var(--grey-300);
+      color: var(--grey-700);
+    }
   }
 }

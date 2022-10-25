@@ -10,6 +10,7 @@ import { useCostsQuery } from "src/hooks/useCosts";
 import { costs } from "src/services";
 import { useAuthContext } from "src/contexts/AuthContext";
 import { queryClient } from "src/provider/ReactQueryProvider";
+import toast from "react-hot-toast";
 
 export const CostsModule = () => {
   const { user } = useAuthContext();
@@ -21,14 +22,32 @@ export const CostsModule = () => {
   };
 
   const handleAddCost = async (cost: Cost) => {
-    const res = await costs.create({
-      ...cost,
-      userID: user?.id,
-    });
-    queryClient.invalidateQueries(["costs"]);
+    await toast.promise(
+      costs.create({
+        ...cost,
+        userID: user?.id,
+      }),
+      {
+        loading: "Salvando...",
+        success: () => {
+          queryClient.invalidateQueries(["costs"]);
+          return "Salvo com sucesso!";
+        },
+        error: "Erro ao salvar custo",
+      }
+    );
   };
 
-  const handleDeleteCost = (cost: Cost) => {};
+  const handleDeleteCost = async (id: string) => {
+    await toast.promise(costs.deleteCost(id), {
+      loading: "Excluindo custo...",
+      success: () => {
+        queryClient.invalidateQueries(["costs"]);
+        return "Custo excluído com sucesso!";
+      },
+      error: "Erro ao excluir custo",
+    });
+  };
 
   return (
     <Layout>

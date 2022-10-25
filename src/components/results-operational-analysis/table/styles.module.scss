@@ -37,4 +37,31 @@
       }
     }
   }
+
+  tfoot {
+    tr {
+      td {
+        font-size: 0.875rem;
+        text-align: center;
+        padding: 0.5rem 1rem;
+        white-space: nowrap;
+        background: var(--grey-200);
+        font-weight: 700;
+      }
+
+      &:last-of-type {
+        td {
+          &:last-of-type {
+            border-radius: 0 0 0.5rem;
+          }
+
+          &:first-of-type {
+            border-radius: 0 0 0 0.5rem;
+          }
+        }
+      }
+    }
+    position: sticky;
+    bottom: 0;
+  }
 }

@@ -1,4 +1,6 @@
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { auth } from "src/services";
 import { Button } from "../button";
 import { Input } from "../input/text-input";
@@ -14,23 +16,37 @@ type RegisterFormInputs = {
 };
 
 export const RegisterForm = () => {
-  const { handleSubmit, register } = useForm<RegisterFormInputs>();
+  const { handleSubmit, register, watch } = useForm<RegisterFormInputs>();
+  const router = useRouter();
+
+  const firstName = watch("firstName");
+  const lastName = watch("lastName");
+  const orgName = watch("orgName");
+  const email = watch("email");
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+  const isValid = () =>
+    firstName && lastName && orgName && email && password && confirmPassword;
 
   const onSubmitRegisterForm = async (data: RegisterFormInputs) => {
-    try {
-      const body = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        orgName: data.orgName,
-        email: data.email,
-        password: data.password,
-        address: "",
-        userType: "user",
-      };
-      await auth.register(body);
-    } catch (error) {
-      console.error(error);
-    }
+    const body = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      orgName: data.orgName,
+      email: data.email,
+      password: data.password,
+      address: "",
+      userType: "user",
+    };
+    toast.promise(auth.register(body), {
+      loading: "Criando conta...",
+      success: () => {
+        router.push("/");
+        return "Conta criada com sucesso!";
+      },
+      error: "Erro ao criar conta",
+    });
   };
 
   return (
@@ -59,7 +75,9 @@ export const RegisterForm = () => {
         <label>Confirmar senha</label>
         <Input type="password" {...register("confirmPassword")} />
       </div>
-      <Button type="submit">Cadastrar-se</Button>
+      <Button type="submit" disabled={!isValid()}>
+        Cadastrar-se
+      </Button>
     </form>
   );
 };

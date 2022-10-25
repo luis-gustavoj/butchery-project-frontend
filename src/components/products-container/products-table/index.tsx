@@ -1,13 +1,12 @@
-// Icons
 import TrashIcon from "@svg/trash-icon.svg";
 import EditIcon from "@svg/edit-icon.svg";
-
-// Styles
 import styles from "./styles.module.scss";
 import { ProductModal } from "src/components/product-modal";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { products as productsService } from "src/services";
+import { queryClient } from "src/provider/ReactQueryProvider";
 
-// Types
 interface ProductsTableProps {
   products: {
     name: string;
@@ -26,6 +25,15 @@ export const ProductsTable = ({ products, category }: ProductsTableProps) => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    await toast.promise(productsService.deleteProduct(id), {
+      loading: "Excluindo produto...",
+      success: "Produto excluído com sucesso!",
+      error: "Erro ao excluir produto",
+    });
+    queryClient.invalidateQueries(["products"]);
   };
 
   return (
@@ -48,7 +56,10 @@ export const ProductsTable = ({ products, category }: ProductsTableProps) => {
                   <button type="button" onClick={() => handleOpenModal()}>
                     <EditIcon />
                   </button>
-                  <button type="button">
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteProduct(product.id)}
+                  >
                     <TrashIcon />
                   </button>
                 </td>

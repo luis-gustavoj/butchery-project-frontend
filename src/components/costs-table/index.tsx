@@ -9,7 +9,7 @@ import { parseToCurrency } from "src/utils/parseToCurrency";
 interface CostsTableProps {
   costs: Cost[];
   handleAddCost: (cost: Cost) => void;
-  handleDeleteCost: (cost: Cost) => void;
+  handleDeleteCost: (id: string) => Promise<void>;
 }
 
 export const CostsTable = ({
@@ -49,7 +49,10 @@ export const CostsTable = ({
                   <button type="button" onClick={() => handleOpenModal()}>
                     <EditIcon />
                   </button>
-                  <button type="button" onClick={() => handleDeleteCost(cost)}>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteCost(cost.id)}
+                  >
                     <TrashIcon />
                   </button>
                 </td>
