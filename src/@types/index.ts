@@ -61,7 +61,7 @@ export type User = {
 };
 
 export type Cost = {
-  id: string;
+  id?: string;
   value: number;
   type: string;
   name: string;
