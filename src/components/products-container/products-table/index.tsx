@@ -17,14 +17,14 @@ interface ProductsTableProps {
 }
 
 export const ProductsTable = ({ products, category }: ProductsTableProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<string | null>(null);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenEditModal = (id: string) => {
+    setEditingProduct(id);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    setEditingProduct(null);
   };
 
   const handleDeleteProduct = async (id: string) => {
@@ -52,7 +52,10 @@ export const ProductsTable = ({ products, category }: ProductsTableProps) => {
                 <td>{product?.name}</td>
                 {product.type && <td>{product?.type}</td>}
                 <td className={styles.actionsContainer}>
-                  <button type="button" onClick={() => handleOpenModal()}>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenEditModal(product.id)}
+                  >
                     <EditIcon />
                   </button>
                   <button
@@ -64,9 +67,10 @@ export const ProductsTable = ({ products, category }: ProductsTableProps) => {
                 </td>
               </tr>
               <ProductModal
+                key={product?.id}
                 product={{ ...product, category }}
                 isEditing
-                isOpen={isModalOpen}
+                isOpen={editingProduct === product.id}
                 onRequestClose={handleCloseModal}
               />
             </React.Fragment>
