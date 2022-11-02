@@ -6,6 +6,13 @@ const path = require("path");
 const nextConfig = withReactSvg({
   reactStrictMode: true,
   include: path.resolve(__dirname, "src/assets/svg"),
+  rewrites: async () => [
+    {
+      source: "/api/:path*",
+      destination:
+        "http://ec2-54-172-40-118.compute-1.amazonaws.com/api/:path*",
+    },
+  ],
   redirects: async () => [
     {
       source: "/gerenciamento",
