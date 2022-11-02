@@ -32,22 +32,22 @@ export const ResultsAnalysisModule = () => {
         <Tabs containerClassName={styles.tabsContainer}>
           {data.data["BOV"] && (
             <TabContainer label="Bovino" className={styles.tabContainer}>
-              <OperationAnalysis report={data.data["BOV"]} />
+              <OperationAnalysis category="BOV" report={data.data["BOV"]} />
             </TabContainer>
           )}
           {data.data["SUI"] && (
             <TabContainer label="Suíno" className={styles.tabContainer}>
-              <OperationAnalysis report={data.data["SUI"]} />
+              <OperationAnalysis category="SUI" report={data.data["SUI"]} />
             </TabContainer>
           )}
           {data.data["FRN"] && (
             <TabContainer label="Aves" className={styles.tabContainer}>
-              <OperationAnalysis report={data.data["FRN"]} />
+              <OperationAnalysis category={"FRN"} report={data.data["FRN"]} />
             </TabContainer>
           )}
           {data.data["CXA"] && (
             <TabContainer label="Caixaria" className={styles.tabContainer}>
-              <OperationAnalysis report={data.data["CXA"]} />
+              <OperationAnalysis category={"CXA"} report={data.data["CXA"]} />
             </TabContainer>
           )}
         </Tabs>

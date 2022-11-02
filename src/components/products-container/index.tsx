@@ -21,9 +21,6 @@ export const ProductsContainer = ({
 }: ProductsContainerProps) => {
   return (
     <div className={styles.productsContainer}>
-      <div className={styles.filterContainer}>
-        <SearchInput type="text" placeholder="Procure items pelo nome" />
-      </div>
       <div className={styles.tableContainer}>
         <ProductsTable products={products} category={category} />
       </div>

@@ -13,6 +13,10 @@
       grid-template-columns: 44px auto 100px 175px 200px;
       column-gap: 1rem;
 
+      &[data-small="true"] {
+        grid-template-columns: 44px auto 100px 175px 175px 200px;
+      }
+
       p {
         &:first-of-type {
           text-align: center;

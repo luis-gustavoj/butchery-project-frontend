@@ -21,6 +21,7 @@ export type AnalysisProduct = {
   name?: string;
   weight?: number;
   price?: number;
+  payedPrice?: number;
   id?: string;
 };
 
@@ -36,6 +37,12 @@ export type ParsedAnalysisProduct = {
   invoicing: string;
   contributionPercentage: string;
   price: string;
+  payedPrice: string;
+  breakPercentage: string;
+  residuary: number;
+  realKgPayedToFrig: number;
+  realTotalKgPayedToFrig: number;
+  contributionValue: string;
 };
 
 export type User = {

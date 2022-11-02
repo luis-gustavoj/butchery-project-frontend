@@ -10,6 +10,13 @@ async function create(body: CreateProductRequestBody) {
   return api.post("/products", body);
 }
 
+async function update(
+  productId: string,
+  body: Omit<CreateProductRequestBody, "userID">
+) {
+  return api.put(`/products/${productId}`, body);
+}
+
 async function deleteProduct(productId: string) {
   return api.delete(`/products/${productId}`);
 }
@@ -22,4 +29,5 @@ export const products = {
   create,
   getAll,
   deleteProduct,
+  update,
 };

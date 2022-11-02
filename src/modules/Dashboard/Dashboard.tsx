@@ -21,21 +21,6 @@ import { useDashboardQuery } from "src/hooks/useDashboard";
 import { Layout } from "../layout";
 import styles from "./styles.module.scss";
 
-const ponto_equilibrio = [
-  {
-    name: "Vendas",
-    Vendas: 0,
-    "Custo fixo": 1500,
-    "Custo variável": 1500,
-  },
-  {
-    name: "Vendas",
-    Vendas: 8000,
-    "Custo fixo": 1500,
-    "Custo variável": 6000,
-  },
-];
-
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -134,10 +119,6 @@ export const DashboardModule = () => {
   const { user } = useAuthContext();
   const { data } = useDashboardQuery(user?.id, selectedMonth);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <Layout>
       <div className={styles.titleContainer}>
@@ -196,7 +177,7 @@ export const DashboardModule = () => {
           )}
         </div>
         <div className={styles.chart} style={{ gridArea: "c" }}>
-          <p>Análise de custo operacional</p>
+          <p>Ponto de equilíbrio</p>
           {data && data.breakeven && (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart

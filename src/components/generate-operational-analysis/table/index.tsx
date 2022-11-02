@@ -20,7 +20,7 @@ export const AnalysisTable = ({ products, category }: AnalysisTableProps) => {
     let newProducts = [];
     if (existingProduct) {
       newProducts = analysisProducts.map((p) => {
-        if (p.id === product.id) {
+        if (p.id === existingProduct.id) {
           return product;
         }
         return p;
@@ -59,10 +59,12 @@ export const AnalysisTable = ({ products, category }: AnalysisTableProps) => {
   return (
     <div className={styles.analysisTable}>
       <div className={styles.head}>
-        <div>
+        <div data-small={category === "CXA" || category === "FRN"}>
           <p>N°</p>
           <p>Corte da carne</p>
-          <p>Peso do corte</p>
+          <p>{category === "CXA" ? "Peso" : "Peso do corte"}</p>
+          {(category === "CXA" || category === "FRN") &&
+            "Preço do Kg Cobrado pelo Frigorífico"}
           <p>Preço do KG para venda</p>
           <p />
         </div>
@@ -77,10 +79,12 @@ export const AnalysisTable = ({ products, category }: AnalysisTableProps) => {
               key={`product-${analysisProduct.id}`}
               handleSaveAnalysisProduct={handleSaveAnalysisProduct}
               handleRemoveAnalysisProduct={handleRemoveAnalysisProduct}
+              category={category}
             />
           );
         })}
         <TableRow
+          category={category}
           availableProducts={availableProducts}
           handleSaveAnalysisProduct={handleSaveAnalysisProduct}
           handleRemoveAnalysisProduct={handleRemoveAnalysisProduct}

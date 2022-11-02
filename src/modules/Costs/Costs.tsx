@@ -12,6 +12,8 @@ import { useAuthContext } from "src/contexts/AuthContext";
 import { queryClient } from "src/provider/ReactQueryProvider";
 import toast from "react-hot-toast";
 
+const currentMonth = new Date().getMonth() + 1;
+
 export const CostsModule = () => {
   const { user } = useAuthContext();
   const { data } = useCostsQuery(user?.id);
@@ -31,6 +33,7 @@ export const CostsModule = () => {
         loading: "Salvando...",
         success: () => {
           queryClient.invalidateQueries(["costs"]);
+          queryClient.invalidateQueries(["dashboard", String(currentMonth)]);
           return "Salvo com sucesso!";
         },
         error: "Erro ao salvar custo",
@@ -43,6 +46,7 @@ export const CostsModule = () => {
       loading: "Excluindo custo...",
       success: () => {
         queryClient.invalidateQueries(["costs"]);
+        queryClient.invalidateQueries(["dashboard", String(currentMonth)]);
         return "Custo excluído com sucesso!";
       },
       error: "Erro ao excluir custo",

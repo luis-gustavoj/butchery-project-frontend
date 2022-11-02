@@ -76,6 +76,18 @@ export const ProductModal = ({
   // Handle submit form
   const onSubmit = async (formData: FormInput) => {
     if (isEditing) {
+      const { id } = product;
+      const updatedProduct = {
+        name: formData.name,
+        category: formData.category,
+      };
+      await toast.promise(productsService.update(id, updatedProduct), {
+        loading: "Salvando produto...",
+        success: "Produto salvo com sucesso!",
+        error: "Erro ao salvar produto",
+      });
+      queryClient.invalidateQueries(["products"]);
+      onRequestClose();
     } else {
       const newProduct = {
         name: formData.name,

@@ -5,6 +5,10 @@
   align-items: center;
   padding: 0.875rem 0;
 
+  &[data-small="true"] {
+    grid-template-columns: 44px auto 100px 175px 175px 200px;
+  }
+
   div {
     &:first-of-type {
       text-align: center;

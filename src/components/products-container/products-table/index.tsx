@@ -41,7 +41,6 @@ export const ProductsTable = ({ products, category }: ProductsTableProps) => {
       <thead>
         <tr>
           <th>Nome do corte</th>
-          {category === "BOV" && <th>Tipo</th>}
           <th></th>
         </tr>
       </thead>

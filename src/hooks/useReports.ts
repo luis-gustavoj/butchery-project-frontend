@@ -9,6 +9,7 @@ type Report = {
     name: string;
     price: number;
     weight: number;
+    payedPrice: number;
   }[];
   totalWeight: number;
   totalPrice: number;
@@ -26,6 +27,8 @@ type Reports = {
 const INVISIBLE_LOSE = {
   BOV: 5,
   SUI: 3,
+  FRN: 12,
+  CXA: 3,
 };
 
 const generateReport = (report: Report, category: string) => {
@@ -51,6 +54,7 @@ const generateReport = (report: Report, category: string) => {
     (acc, product) => acc + product.price * product.weight,
     0
   );
+
   const products = report.products.map((product) => ({
     name: product.name,
     weight: product.weight,
@@ -60,13 +64,27 @@ const generateReport = (report: Report, category: string) => {
     realPricePayedToFrig: formatAsCurrency(
       (totalChargedByFrig / totalWeightAfterBoning) * product.weight
     ),
-    markup: formatAsPercent(
-      product.price / (totalChargedByFrig / totalWeightAfterBoning) - 1
-    ),
-    markdown: formatAsPercent(
-      (product.price - totalChargedByFrig / totalWeightAfterBoning) /
-        product.price
-    ),
+    markup:
+      category === "BOV" || category === "SUI"
+        ? formatAsPercent(
+            product.price / (totalChargedByFrig / totalWeightAfterBoning) - 1
+          )
+        : formatAsPercent(
+            product.price /
+              (product.payedPrice / (1 - INVISIBLE_LOSE[category] / 100)) -
+              1
+          ),
+    markdown:
+      category === "BOV" || category === "SUI"
+        ? formatAsPercent(
+            (product.price - totalChargedByFrig / totalWeightAfterBoning) /
+              product.price
+          )
+        : formatAsPercent(
+            (product.price -
+              product.payedPrice / (1 - INVISIBLE_LOSE[category] / 100)) /
+              product.price
+          ),
     invoicing: formatAsCurrency(product.price * product.weight),
     contributionPercentage: formatAsPercent(
       (product.price * product.weight) /
@@ -74,7 +92,33 @@ const generateReport = (report: Report, category: string) => {
         1
     ),
     price: formatAsCurrency(product.price),
+    payedPrice: formatAsCurrency(product.payedPrice),
+    breakPercentage: formatAsPercent(INVISIBLE_LOSE[category] / 100),
+    residuary: Number(
+      (
+        product.weight -
+        (product.weight * INVISIBLE_LOSE[category]) / 100
+      ).toFixed(3)
+    ),
+    realKgPayedToFrig:
+      product.payedPrice / (1 - INVISIBLE_LOSE[category] / 100),
+    realTotalKgPayedToFrig:
+      (product.payedPrice / (1 - INVISIBLE_LOSE[category] / 100)) *
+      product.weight,
+    contributionValue: formatAsCurrency(
+      product.price * product.weight -
+        (product.payedPrice / (1 - INVISIBLE_LOSE[category] / 100)) *
+          product.weight
+    ),
   }));
+  const totalResiduary = products.reduce((acc, p) => p.residuary + acc, 0);
+  const utilizationRate = formatAsPercent(
+    totalResiduary / totalWeightAfterBoning
+  );
+  const totalCost = products.reduce(
+    (acc, p) => p.realTotalKgPayedToFrig + acc,
+    0
+  );
   return {
     panel: {
       totalWeightAfterBoning,
@@ -86,6 +130,8 @@ const generateReport = (report: Report, category: string) => {
       totalWeight: report.totalWeight,
       revenue: revenue,
       invisibleLoss: INVISIBLE_LOSE[category] || undefined,
+      utilizationRate,
+      totalCost,
     },
     products,
   };

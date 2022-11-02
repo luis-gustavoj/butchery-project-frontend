@@ -125,7 +125,7 @@ export function useDashboardQuery(userId: string, month: string) {
     {
       enabled: !!userId && !!month,
       keepPreviousData: true,
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnWindowFocus: false,
       retry(failureCount) {
         if (failureCount > 3) {
