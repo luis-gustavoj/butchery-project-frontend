@@ -37,7 +37,7 @@ export const LoginForm = () => {
         <Input type="password" {...register("password")} />
       </div>
       <div className={styles.additionalInfo}>
-        <Link href="/forgot-password">Esqueceu sua senha?</Link>
+        {/* <Link href="/forgot-password">Esqueceu sua senha?</Link> */}
       </div>
       <Button type="submit" disabled={!email || !password}>
         Login
