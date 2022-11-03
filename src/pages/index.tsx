@@ -1,5 +1,7 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { LoginModule } from "src/modules/Login";
+import { withSSRGuest } from "src/utils/withSSRGuest";
 
 export default function LoginPage() {
   return (
@@ -11,3 +13,11 @@ export default function LoginPage() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(
+  async (ctx) => {
+    return {
+      props: {},
+    };
+  }
+);

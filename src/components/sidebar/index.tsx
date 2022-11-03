@@ -15,6 +15,7 @@ import styles from "./styles.module.scss";
 import { useRouter } from "next/router";
 import { useAuthContext } from "src/contexts/AuthContext";
 import { userPreferences } from "src/utils/userPreferences";
+import { queryClient } from "src/provider/ReactQueryProvider";
 
 // Sidebar menu items in array to map on items
 const sideBarMenuItems = [
@@ -47,11 +48,6 @@ const sideBarMenuItems = [
 
 const adminSideBarMenuItems = [
   {
-    icon: <DashboardIcon />,
-    link: "/admin/dashboard",
-    description: "Dashboard",
-  },
-  {
     icon: <ProductsIcon />,
     link: "/admin/usuarios",
     description: "Usuários",
@@ -65,6 +61,11 @@ export const Sidebar = () => {
   const { signOut, user } = useAuthContext();
   const sideBarMenuItemsToRender =
     user?.userType === "admin" ? adminSideBarMenuItems : sideBarMenuItems;
+
+  const handleSignOut = () => {
+    queryClient.clear();
+    signOut();
+  };
 
   const sideBarClassNames = joinClassnames(styles.sidebar, {
     [styles.collapsed]: isSidebarCollapsed,
@@ -119,7 +120,7 @@ export const Sidebar = () => {
             [styles.collapsed]: isSidebarCollapsed,
           })}
           type="button"
-          onClick={signOut}
+          onClick={handleSignOut}
         >
           <span className={styles.iconContainer}>
             <LogoutIcon />

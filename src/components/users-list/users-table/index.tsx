@@ -2,16 +2,24 @@ import TrashIcon from "@svg/trash-icon.svg";
 import EditIcon from "@svg/edit-icon.svg";
 import styles from "./styles.module.scss";
 import React, { useState } from "react";
+import { useUsersQuery } from "src/hooks/useUsers";
+import { users } from "src/services";
+import toast from "react-hot-toast";
+import { queryClient } from "src/provider/ReactQueryProvider";
 
 export const UsersTable = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data } = useUsersQuery();
+  const usersData = data?.data;
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleDeleteUser = async (id: string) => {
+    await toast.promise(users.delete(id), {
+      loading: "Excluindo usuário...",
+      success: () => {
+        queryClient.invalidateQueries(["users"]);
+        return "Usuário excluído com sucesso!";
+      },
+      error: "Erro ao excluir usuário",
+    });
   };
 
   return (
@@ -25,23 +33,26 @@ export const UsersTable = () => {
         </tr>
       </thead>
       <tbody>
-        {/* {products !== null &&
-          products?.map((product) => (
-            <React.Fragment key={product?.id}>
+        {usersData &&
+          usersData.map((user) => (
+            <React.Fragment key={user.id}>
               <tr>
-                <td>{product?.name}</td>
-                {product.type && <td>{product?.type}</td>}
+                <td>
+                  {user.firstName} {user.lastName}
+                </td>
+                <td>{user.email}</td>
+                <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td className={styles.actionsContainer}>
-                  <button type="button" onClick={() => handleOpenModal()}>
-                    <EditIcon />
-                  </button>
-                  <button type="button">
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
                     <TrashIcon />
                   </button>
                 </td>
               </tr>
             </React.Fragment>
-          ))} */}
+          ))}
       </tbody>
     </table>
   );

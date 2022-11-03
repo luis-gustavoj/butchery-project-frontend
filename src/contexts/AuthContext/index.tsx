@@ -23,7 +23,7 @@ type SignInCredentials = {
 const AuthContext = createContext<Context | null>(null);
 
 export function handleSignOut() {
-  destroyCookie(undefined, "maq.token", {
+  destroyCookie(undefined, "butcher.access_token", {
     path: "/",
   });
 
