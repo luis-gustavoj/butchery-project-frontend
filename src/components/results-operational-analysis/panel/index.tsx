@@ -55,7 +55,7 @@ export const Panel = ({ panelInfo }: PanelProps) => {
           <p>Rendimento na desossa:</p>
           <table>
             <tr>
-              <td>{panelInfo.totalWeightAfterBoning}</td>
+              <td>{panelInfo.totalWeightAfterBoning.toFixed(3)}</td>
               <td>KG</td>
             </tr>
             <tr>
@@ -79,7 +79,7 @@ export const Panel = ({ panelInfo }: PanelProps) => {
               <td>%</td>
             </tr>
             <tr>
-              <td>{panelInfo.totalWeightAfterBoning}</td>
+              <td>{panelInfo.totalWeightAfterBoning.toFixed(3)}</td>
               <td>KG</td>
             </tr>
           </table>

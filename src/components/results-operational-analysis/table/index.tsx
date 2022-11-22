@@ -106,7 +106,7 @@ export const AnalysisTable = ({
         <tr>
           <td />
           <td>Total dos cortes</td>
-          <td>{panelInfo.totalWeightAfterBoning}</td>
+          <td>{panelInfo.totalWeightAfterBoning.toFixed(3)}</td>
           {(category === "CXA" || category === "FRN") && <td />}
           <td>
             {category === "CXA" || category === "FRN"

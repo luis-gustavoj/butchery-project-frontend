@@ -121,7 +121,7 @@ const generateReport = (report: Report, category: string) => {
   );
   return {
     panel: {
-      totalWeightAfterBoning: totalWeightAfterBoning.toFixed(3),
+      totalWeightAfterBoning,
       totalChargedByFrig,
       weightAfterInvisibleLoss,
       lossOnBoning,
