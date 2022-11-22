@@ -18,6 +18,7 @@ import {
 import { SelectInput } from "src/components/input/select-input";
 import { useAuthContext } from "src/contexts/AuthContext";
 import { useDashboardQuery } from "src/hooks/useDashboard";
+import { formatAsCurrency } from "src/utils/formatAsCurrency";
 import { Layout } from "../layout";
 import styles from "./styles.module.scss";
 
@@ -139,7 +140,7 @@ export const DashboardModule = () => {
               <BarChart data={data.inOut}>
                 <XAxis dataKey="label" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip formatter={(value) => formatAsCurrency(value)} />
                 <Bar dataKey="Valor">
                   <Cell fill="#61CC72" />
                   <Cell fill="#B52F2F" />
